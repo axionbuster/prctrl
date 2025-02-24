@@ -6,22 +6,22 @@ import Control.Monad.ST.Cont
 import Data.Functor
 import Debug.Trace
 
--- | exception effect (strict ST monad)
+-- | Exception effect (strict ST monad).
 newtype H s e a = H (PromptTag s (Either e a))
 
--- | run the exception effect
+-- | Run the exception effect.
 exceptionally :: (H s e a -> ST s a) -> ST s a
 exceptionally = (H <$> newPromptTag >>=)
 
--- | try out
+-- | Try out.
 try :: ST s a -> H s e a -> ST s (Either e a)
 try action (H tag) = prompt tag do Right <$> action
 
--- | throw
+-- | Throw.
 throw :: e -> H s e a -> ST s b
 throw e (H tag) = control0 tag \_ -> pure (Left e)
 
--- | catch
+-- | Catch.
 catch :: ST s a -> (e -> ST s a) -> H s e a -> ST s a
 catch action handler h =
   try action h >>= \case
