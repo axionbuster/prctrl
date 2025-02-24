@@ -51,6 +51,7 @@ prompt (PromptTag t) (ST a) = ST (unsafeCoerce# (prompt# t (unsafeCoerce# a)))
 --
 -- * Must have matching prompt with same tag in scope
 -- * Cannot cross state thread boundaries
+-- * Undefined behavior may occur if contract is broken
 control0 :: PromptTag s a -> ((ST s b -> ST s a) -> ST s a) -> ST s b
 control0 (PromptTag t) a = toST do
   control0# t \b s -> unST (a \p -> toST (b (unST p))) (unsafeCoerce# s)
