@@ -17,14 +17,20 @@ common warnings
 
 common exts
     default-extensions: BlockArguments, LambdaCase, ViewPatterns,
-                        MagicHash, UnboxedTuples
+                        MagicHash, UnboxedTuples, ScopedTypeVariables
     default-language:   GHC2024
 
-executable prctrl
+executable prctrl-demo1
     import:           warnings, exts
     main-is:          Main.hs
     build-depends:    base, prctrl
-    hs-source-dirs:   app
+    hs-source-dirs:   app/Demo1
+
+executable prctrl-demo2
+    import:           warnings, exts
+    main-is:          Main.hs
+    build-depends:    base, prctrl
+    hs-source-dirs:   app/Demo2
 
 library
     import:           warnings, exts
